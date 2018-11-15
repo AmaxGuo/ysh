@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8" />
+		<title>益生活管理后台</title>
+
+		<link rel="stylesheet" href="css/bootstrap.min.css" />
+		<link rel="stylesheet" href="css/home.css"/>
+		<script type="text/javascript" src="js/jquery-1.11.1.min.js"></script>
+		<script type="text/javascript" src="js/bootstrap.min.js"></script>
+		<script type="text/javascript" src="js/bmob.js"></script>
+		<script type="text/javascript" src="sclrecord.js"></script>
+
+		<!--<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.css">-->
+		<!--<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.js"></script>-->
+		<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/dt/jszip-2.5.0/dt-1.10.18/b-1.5.4/b-flash-1.5.4/b-html5-1.5.4/b-print-1.5.4/datatables.min.css" />
+		<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/pdfmake.min.js"></script>
+		<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/vfs_fonts.js"></script>
+		<script type="text/javascript" src="https://cdn.datatables.net/v/dt/jszip-2.5.0/dt-1.10.18/b-1.5.4/b-flash-1.5.4/b-html5-1.5.4/b-print-1.5.4/datatables.min.js"></script>
+		<!--打印js-->
+		<script type="text/javascript" src="js/jquery.jqprint-0.3.js"></script>
+		<script type="text/javascript" src="http://www.jq22.com/jquery/jquery-migrate-1.2.1.min.js"></script>
+		<script>
+			getTotalp();
+			getTotalpzf();
+			getTotalpy();
+			getlist();
+		</script>
+
+		<script>
+			function myprint() {
+				$("#myModal").jqprint({ importCSS: false});
+			}
+		</script>
+	</head>
+
+	<body>
+		<div class="navbar navbar-inverse">
+			<div class="container">
+				<div class="navbar-header">
+					<a class="navbar-brand" href="index.html">益生活心理测试管理后台</a>
+				</div>
+				<div class="navbar-collapse collapse">
+					<ul class="nav navbar-nav pull-right">
+						<li class="active">
+							<a href="#">首页</a>
+						</li>
+
+					</ul>
+				</div>
+			</div>
+		</div>
+		<div class="container-fluid">
+			<div class="row">
+				<div class="col-lg-4 col-xs-6">
+					<!-- small box -->
+					<div class="small-box bg-aqua">
+						<div class="inner">
+							<h3 id="totalp"></h3>
+
+							<p>测试总人数</p>
+						</div>
+						<div class="icon">
+							<i class="ion ion-bag"></i>
+						</div>
+
+					</div>
+				</div>
+
+				<!-- ./col -->
+				<div class="col-lg-4 col-xs-6">
+					<!-- small box -->
+					<div class="small-box bg-yellow">
+						<div class="inner">
+							<h3 id="totalpy">0</h3>
+
+							<p>阳性项目数大于43</p>
+						</div>
+						<div class="icon">
+							<i class="ion ion-stats-bars"></i>
+						</div>
+					</div>
+				</div>
+				<!-- ./col -->
+				<div class="col-lg-4 col-xs-6">
+					<!-- small box -->
+					<div class="small-box bg-red">
+						<div class="inner">
+							<h3 id="totalpzf">0</h3>
+
+							<p>总分大于160</p>
+						</div>
+						<div class="icon">
+							<i class="ion ion-pie-graph"></i>
+						</div>
+
+					</div>
+				</div>
+				<!-- ./col -->
+			</div>
+		</div>
+		<div class="scltable">
+			<table id="SCLdt" class="display"> </table>
+		</div>
+		<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+			<div class="modal-dialog modal-lg" role="document">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+						<h4 class="modal-title" id="myModalLabel">测试详情</h4>
+					</div>
+					<div class="modal-body">
+						<div class="form-group">
+							<label for="txt_parentdepartment">客户信息</label>
+							<table id="yhtable" class="table table-hover table-responsive table-bordered">
+								<thead>
+									<th style="text-align: center; vertical-align: middle;">
+										<div class="th-inner ">部门</div>
+									</th>
+									<th style="text-align: center; vertical-align: middle;">
+										<div class="th-inner ">姓名</div>
+									</th>
+									<th style="text-align: center; vertical-align: middle;">
+										<div class="th-inner ">性别</div>
+									</th>
+									<th style="text-align: center; vertical-align: middle;">
+										<div class="th-inner ">年龄</div>
+									</th>
+
+								</thead>
+								<tbody id="yhdataTable"></tbody>
+							</table>
+
+						</div>
+
+						<div class="form-group">
+							<label for="txt_departmentname">测试指标统计</label>
+							<table id="tjtable" class="table table-hover table-responsive  table-bordered">
+								<thead>
+									<th style="text-align: center; vertical-align: middle;">
+										<div class="th-inner ">总分</div>
+									</th>
+									<th style="text-align: center; vertical-align: middle;">
+										<div class="th-inner ">总均分</div>
+									</th>
+									<th style="text-align: center; vertical-align: middle;">
+										<div class="th-inner ">阳性项目数</div>
+									</th>
+									<th style="text-align: center; vertical-align: middle;">
+										<div class="th-inner ">阴性项目数</div>
+									</th>
+									<th style="text-align: center; vertical-align: middle;">
+										<div class="th-inner ">阳性症状均分</div>
+									</th>
+
+								</thead>
+								<tbody id="tjdataTable"></tbody>
+							</table>
+
+						</div>
+						<div class="form-group">
+							<label for="txt_parentdepartment">因子分数统计</label>
+							<table id="yztable" class="table table-hover table-responsive  table-bordered">
+								<thead>
+									<th style="text-align: center; vertical-align: middle;">
+										<div class="th-inner ">因子</div>
+									</th>
+									<th style="text-align: center; vertical-align: middle;">
+										<div class="th-inner ">原始分</div>
+									</th>
+									<th style="text-align: center; vertical-align: middle;">
+										<div class="th-inner ">平均分</div>
+									</th>
+									<th style="text-align: center; vertical-align: middle;" colspan="14">
+										<div class="th-inner ">明细</div>
+									</th>
+
+								</thead>
+								<tbody id="yzdataTable"></tbody>
+							</table>
+
+						</div>
+
+					</div>
+					<div class="modal-footer">
+						<button onclick="myprint()" type="button" class="btn btn-info" data-dismiss="modal"><span class="glyphicon glyphicon-print" aria-hidden="true"></span>打印</button>
+						<button type="button" class="btn btn-default" data-dismiss="modal"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span>关闭</button>
+					</div>
+				</div>
+			</div>
+		</div>
+	</body>
+
+</html>
