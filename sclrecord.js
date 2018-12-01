@@ -56,7 +56,7 @@ function getlist() {
 						"title": "编号",
 					},
 					{
-						"title": "部门",
+						"title": "公司",
 					},
 					{
 						"title": "姓名",
